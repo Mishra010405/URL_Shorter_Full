@@ -1,0 +1,26 @@
+const { nanoid } = require('nanoid');
+const URL = require("../models/url.js");
+
+async function handlegrenratenewurl(req, res) {
+    const body = req.body;
+    
+
+    if (!body.url) {
+        return res.status(400).json({ error: "Url is required" });
+    }
+
+    const shortId = nanoid(8);
+
+    await URL.create({
+        shortId: shortId,
+        redirectUrl: body.url,
+        visitHistory: [],
+    });
+    console.log("BODY: is working", req.body);
+
+    return res.json({ id: shortId });
+}
+
+module.exports = {
+    handlegrenratenewurl,
+};
